@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Created by sleig on 3/19/2017.
+ * This class runs the connects to the DB and runs the querys
+ *
+ * @author tigersharks <a href="https://github.com/yd8266uj/tigersharks">github</a>
  */
 public class LibraryItemDatabase implements Database<LibraryItem> {
     private Connection connection;
@@ -25,7 +27,9 @@ public class LibraryItemDatabase implements Database<LibraryItem> {
     private static class SingletonHolder {
         static LibraryItemDatabase instance = new LibraryItemDatabase();
     }
-
+    /*
+    *Connects to DB
+    */
     private LibraryItemDatabase() {
         final String url = "jdbc:" + databaseDriver + ":" + databaseDirectory + "//" + databaseName;
         try {
@@ -43,7 +47,10 @@ public class LibraryItemDatabase implements Database<LibraryItem> {
     public static LibraryItemDatabase getInstance() {
         return SingletonHolder.instance;
     }
-
+    
+    /*
+    *Grabs everything from the DB
+    */
     @Override
     public List<LibraryItem> selectAll() {
         final String sql = "SELECT " + columnList + " FROM " + tableName;
@@ -75,7 +82,11 @@ public class LibraryItemDatabase implements Database<LibraryItem> {
         }
         return libraryItemList;
     }
-
+    /*
+    *Updates the DB
+    *
+    *@param LibraryItem is Object LibraryItem that has all the data stored in its variable
+    */
     @Override
     public void update(LibraryItem libraryItem) {
         final String id = libraryItem.getId();
@@ -117,7 +128,9 @@ public class LibraryItemDatabase implements Database<LibraryItem> {
             e.printStackTrace();
         }
     }
-
+    /*
+    *Creates table if table does not exsist
+    */
     private void createTable() throws SQLException {
         final String sql = "CREATE TABLE " + tableName + " (" +
                 "id    TEXT NOT NULL," +
